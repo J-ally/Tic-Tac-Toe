@@ -4,18 +4,16 @@
 date : 06-09-2022
 @author: jally
 """
-
+import numpy as np
 from tkinter import *
 from tkinter import messagebox
      
-           
 ###############################################################################
 #                           Define root                                    #
 ###############################################################################
 
 root = Tk()
 root.title("Tic-Tac-Toe") 
-import numpy as np
 
 ###############################################################################
 #                               Globals                                       #
@@ -95,6 +93,7 @@ def check_lignes (arr) :
     return :
         True if there is a winner, False otherwise
     """
+    global COUNT
     for i in range(3) :
         if arr[i][0].cget("text") == arr[i][1].cget("text") == arr[i][2].cget("text") != " " :
             return True
@@ -104,7 +103,6 @@ def check_lignes (arr) :
     for i in range(3) :
         if arr_rot[i][0].cget("text") == arr_rot[i][1].cget("text") == arr_rot[i][2].cget("text") != " " :
             return True    
-    
     return False
 
 
@@ -128,16 +126,21 @@ def check_win () :
     """
     check if either player is winning and reinitialise the grid if someone won
     """ 
-    global BUT_ARRAY
+    global BUT_ARRAY, COUNT
     col_or_li = check_lignes(BUT_ARRAY)
     diags = check_diags(BUT_ARRAY)
+    
     if col_or_li or diags :
         if CLICKED :
             messagebox.showinfo("Tic-Tac-Toe", "Player O wins!")
         else :
             messagebox.showinfo("Tic-Tac-Toe", "Player X wins!")
-            
         initialise_grid()
+        COUNT = 0
+    elif COUNT == 9 :
+        messagebox.showinfo("Tic-Tac-Toe", "It's a draw!")
+        initialise_grid()
+        COUNT = 0
     else :
         pass
     
